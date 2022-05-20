@@ -1,24 +1,26 @@
 package com.devsuperior.dscatalog.controller;
 
 import com.devsuperior.dscatalog.entity.Category;
+import com.devsuperior.dscatalog.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
-    @GetMapping
-    public ResponseEntity<List<Category>> findAll(){
-        List<Category> category = new ArrayList<>();
-        category.add(new Category(1L, "Books"));
-        category.add(new Category(2L, "Eletronics"));
+    @Autowired
+    private CategoryService categoryService;
 
-        return ResponseEntity.status(200).body(category);
+    //Sempre que usar o List dentro do ResponseEntity, LEMBRE-SE de colocar as chaves "<>" e dentro o nome da classe usada.
+    @GetMapping
+    public ResponseEntity<List<Category>> findAll() {
+        List<Category> categories = categoryService.findAll();
+        return ResponseEntity.status(200).body(categories);
     }
 }

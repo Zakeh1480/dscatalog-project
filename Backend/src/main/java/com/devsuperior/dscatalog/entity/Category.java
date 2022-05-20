@@ -1,13 +1,18 @@
 package com.devsuperior.dscatalog.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_category")
 public class Category implements Serializable {
 
     // Serializable converte a classe em bytes, usado para passar por redes quando há falhas por exemplo.
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
