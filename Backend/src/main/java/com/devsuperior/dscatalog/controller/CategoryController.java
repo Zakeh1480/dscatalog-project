@@ -1,6 +1,6 @@
 package com.devsuperior.dscatalog.controller;
 
-import com.devsuperior.dscatalog.entity.Category;
+import com.devsuperior.dscatalog.DTO.CategoryDTO;
 import com.devsuperior.dscatalog.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class CategoryController {
 
     //Sempre que usar o List dentro do ResponseEntity, LEMBRE-SE de colocar as chaves "<>" e dentro o nome da classe usada.
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> categories = categoryService.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        List<CategoryDTO> categories = categoryService.findAll();
         return ResponseEntity.status(200).body(categories);
     }
 }
