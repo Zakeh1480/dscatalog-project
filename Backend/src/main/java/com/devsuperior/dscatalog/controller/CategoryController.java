@@ -5,6 +5,7 @@ import com.devsuperior.dscatalog.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,11 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> findAll() {
         List<CategoryDTO> categories = categoryService.findAll();
         return ResponseEntity.status(200).body(categories);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDTO> findCategoryById(@PathVariable Long id){
+        CategoryDTO categoryDTO = categoryService.findById(id);
+        return ResponseEntity.status(200).body(categoryDTO);
     }
 }

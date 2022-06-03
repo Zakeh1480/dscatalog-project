@@ -3,12 +3,14 @@ package com.devsuperior.dscatalog.service;
 import com.devsuperior.dscatalog.DTO.CategoryDTO;
 import com.devsuperior.dscatalog.entity.Category;
 import com.devsuperior.dscatalog.repository.CategoryRepository;
+import com.devsuperior.dscatalog.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,5 +33,13 @@ public class CategoryService {
 //        for (Category cat : list){
 //            categoryDTOList.add(new CategoryDTO(cat));
 //        }
+    }
+
+    public CategoryDTO findById(Long id) {
+        //Optional é usada para não trabalhar com nulos - exemplo categoryRepository.findById(id) ficaria sozinho;
+        Optional<Category> category = categoryRepository.findById(id);
+        //Usando a entidade e lançando uma exception.
+        Category entity = category.orElseThrow(() -> new EntityNotFoundException("Entity not found."));
+        return new CategoryDTO(entity);
     }
 }
