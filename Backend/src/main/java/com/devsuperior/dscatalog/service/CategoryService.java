@@ -3,12 +3,13 @@ package com.devsuperior.dscatalog.service;
 import com.devsuperior.dscatalog.DTO.CategoryDTO;
 import com.devsuperior.dscatalog.entity.Category;
 import com.devsuperior.dscatalog.repository.CategoryRepository;
-import com.devsuperior.dscatalog.service.exceptions.EntityNotFoundException;
+import com.devsuperior.dscatalog.service.exceptions.ResourceNotFoundException;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class CategoryService {
         //Optional é usada para não trabalhar com nulos - exemplo categoryRepository.findById(id) ficaria sozinho;
         Optional<Category> category = categoryRepository.findById(id);
         //Usando a entidade e lançando uma exception.
-        Category entity = category.orElseThrow(() -> new EntityNotFoundException("Entity not found."));
+        Category entity = category.orElseThrow(() -> new ResourceNotFoundException("Entity not found."));
         return new CategoryDTO(entity);
     }
 
@@ -49,5 +50,14 @@ public class CategoryService {
         categoryRepository.save(category);
         
         return new CategoryDTO(category);
+    }
+
+
+    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
+            Optional<Category> categoryOptional = categoryRepository.findById(id);
+            Category category = categoryOptional.orElseThrow(() -> new ResourceNotFoundException("ID not found"));
+            category.setName(categoryDTO.getName());
+            categoryRepository.save(category);
+            return new CategoryDTO(category);
     }
 }
