@@ -1,6 +1,7 @@
 package com.devsuperior.dscatalog.entity;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -10,6 +11,7 @@ import java.util.Objects;
 public class Category implements Serializable {
 
     // Serializable converte a classe em bytes, usado para passar por redes quando há falhas por exemplo.
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -17,7 +19,7 @@ public class Category implements Serializable {
     private Long id;
     private String name;
 
-    @Column(columnDefinition = "TIMESTEMP WITHOUT TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
@@ -55,10 +57,12 @@ public class Category implements Serializable {
         return updatedAt;
     }
 
+    @PrePersist
     public void prePersist(){
         createdAt = Instant.now();
     }
 
+    @PreUpdate
     public void preUpdate(){
         updatedAt = Instant.now();
     }
