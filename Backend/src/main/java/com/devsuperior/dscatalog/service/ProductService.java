@@ -1,7 +1,10 @@
 package com.devsuperior.dscatalog.service;
 
+import com.devsuperior.dscatalog.DTO.CategoryDTO;
 import com.devsuperior.dscatalog.DTO.ProductDTO;
+import com.devsuperior.dscatalog.entity.Category;
 import com.devsuperior.dscatalog.entity.Product;
+import com.devsuperior.dscatalog.repository.CategoryRepository;
 import com.devsuperior.dscatalog.repository.ProductRepository;
 import com.devsuperior.dscatalog.service.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.service.exceptions.ResourceNotFoundException;
@@ -21,6 +24,9 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     //Garante que o método estará incluido na transação do banco ou irá fazer uma transação.
     @Transactional
     public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
@@ -38,6 +44,7 @@ public class ProductService {
 //        }
     }
 
+    @Transactional
     public ProductDTO findById(Long id) {
         //Optional é usada para não trabalhar com nulos - exemplo ProductRepository.findById(id) ficaria sozinho;
         Optional<Product> product = productRepository.findById(id);
@@ -46,23 +53,26 @@ public class ProductService {
         return new ProductDTO(entity, entity.getCategories());
     }
 
+    @Transactional
     public ProductDTO createProduct(ProductDTO productDTO) {
         Product product = new Product();
-//        productDTO.setName(productDTO.getName());
+        copyDtoToEntity(productDTO, product);
         productRepository.save(product);
 
         return new ProductDTO(product);
     }
 
 
+    @Transactional
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
         Optional<Product> productOptional = productRepository.findById(id);
-        Product product = productOptional.orElseThrow(() -> new ResourceNotFoundException("ID not found"));
-//        product.setName(ProductDTO.getName());
+        Product product = productOptional.orElseThrow(() -> new ResourceNotFoundException("ID not found. " + id));
+        copyDtoToEntity(productDTO, product);
         productRepository.save(product);
         return new ProductDTO(product);
     }
 
+    @Transactional
     public void deleteProduct(Long id) {
         try {
             productRepository.deleteById(id);
@@ -70,6 +80,23 @@ public class ProductService {
             throw new ResourceNotFoundException("ID not found " + id);
         } catch (DataIntegrityViolationException erro) {
             throw new DatabaseException("Integrity violation");
+        }
+    }
+
+    //Método para transferir dados de um DTO para a entidade.
+    private void copyDtoToEntity(ProductDTO productDTO, Product product){
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setImgUrl(productDTO.getImgUrl());
+        product.setDate(productDTO.getDate());
+
+        //Limpando as categorias da entidade para usar da classe DTO
+        product.getCategories().clear();
+
+        for (CategoryDTO categoryDTO : productDTO.getCategoryDTO()){
+            Category category = categoryRepository.getReferenceById(categoryDTO.getId());
+            product.getCategories().add(category);
         }
     }
 }
