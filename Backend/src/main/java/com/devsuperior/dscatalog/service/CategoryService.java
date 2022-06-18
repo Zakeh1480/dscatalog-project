@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,8 +23,8 @@ public class CategoryService {
 
     //Garante que o método estará incluido na transação do banco ou irá fazer uma transação.
     @Transactional
-    public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
-        Page<Category> listPage = categoryRepository.findAll(pageRequest);
+    public Page<CategoryDTO> findAllPaged(Pageable pageable) {
+        Page<Category> listPage = categoryRepository.findAll(pageable);
 
 //        Convertendo uma lista Category em uma lista CategoryDTO - Jeito resumido.
 //        Page já um .stream(), então não precisa chamar e converter para list novamente (collect)

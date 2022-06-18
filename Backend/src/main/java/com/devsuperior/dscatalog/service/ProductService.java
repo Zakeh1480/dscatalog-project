@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,8 +29,8 @@ public class ProductService {
 
     //Garante que o método estará incluido na transação do banco ou irá fazer uma transação.
     @Transactional
-    public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
-        Page<Product> listPage = productRepository.findAll(pageRequest);
+    public Page<ProductDTO> findAllPaged(Pageable pageable) {
+        Page<Product> listPage = productRepository.findAll(pageable);
 
 //        Convertendo uma lista Product em uma lista ProductDTO - Jeito resumido.
 //        Page já um .stream(), então não precisa chamar e converter para list novamente (collect)
@@ -84,7 +84,7 @@ public class ProductService {
     }
 
     //Método para transferir dados de um DTO para a entidade.
-    private void copyDtoToEntity(ProductDTO productDTO, Product product){
+    private void copyDtoToEntity(ProductDTO productDTO, Product product) {
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
@@ -94,7 +94,7 @@ public class ProductService {
         //Limpando as categorias da entidade para usar da classe DTO
         product.getCategories().clear();
 
-        for (CategoryDTO categoryDTO : productDTO.getCategoryDTO()){
+        for (CategoryDTO categoryDTO : productDTO.getCategoryDTO()) {
             Category category = categoryRepository.getReferenceById(categoryDTO.getId());
             product.getCategories().add(category);
         }
