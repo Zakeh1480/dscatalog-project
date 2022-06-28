@@ -22,7 +22,7 @@ public class ResourceExceptionHandler {
 
         standardError.setTimestamp(Instant.now());
         standardError.setStatus(HttpStatus.NOT_FOUND.value());
-        standardError.setError("Category not found");
+        standardError.setError("Controller not found");
         standardError.setMessage(entityNotFoundException.getMessage());
         standardError.setPath(httpServletRequest.getRequestURI());
 

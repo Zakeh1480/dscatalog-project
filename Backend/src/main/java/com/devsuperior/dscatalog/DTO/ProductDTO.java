@@ -19,7 +19,7 @@ public class ProductDTO {
 
     private List<CategoryDTO> categoryDTO = new ArrayList<>();
 
-    public ProductDTO(){
+    public ProductDTO() {
 
     }
 
@@ -32,7 +32,7 @@ public class ProductDTO {
         this.date = date;
     }
 
-    public ProductDTO(Product product){
+    public ProductDTO(Product product) {
         this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();
@@ -41,7 +41,7 @@ public class ProductDTO {
         this.date = product.getDate();
     }
 
-    public ProductDTO(Product product, Set<Category> categories){
+    public ProductDTO(Product product, Set<Category> categories) {
         this(product);
         categories.forEach(category -> categoryDTO.add(new CategoryDTO(category)));
     }
