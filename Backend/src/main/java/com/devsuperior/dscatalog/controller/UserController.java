@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -36,7 +37,7 @@ public class UserController {
     //O método continuara a retornar uma UserDTO, porém, como passaremos a senha por outro método/class
     //Implementamos essa classe como argumento
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserInsertDTO userInsertDTO) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserInsertDTO userInsertDTO) {
         UserDTO userDTO = userService.createUser(userInsertDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(userDTO.getId())
                 .toUri();
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO UserDTO) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO UserDTO) {
         UserDTO = userService.updateUser(id, UserDTO);
         return ResponseEntity.status(200).body(UserDTO);
     }

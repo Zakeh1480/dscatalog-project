@@ -2,10 +2,13 @@ package com.devsuperior.dscatalog.DTO;
 
 import com.devsuperior.dscatalog.entity.Role;
 
+import javax.validation.constraints.NotBlank;
+
 public class RoleDTO {
 
     private Long id;
 
+    @NotBlank
     private String authority;
 
     public RoleDTO() {

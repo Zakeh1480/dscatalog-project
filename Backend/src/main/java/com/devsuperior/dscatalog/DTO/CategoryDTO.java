@@ -2,6 +2,8 @@ package com.devsuperior.dscatalog.DTO;
 
 import com.devsuperior.dscatalog.entity.Category;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class CategoryDTO implements Serializable {
@@ -9,6 +11,9 @@ public class CategoryDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank(message = "Nome não pode ser vazio.")
+    @Size(max = 60, min = 3, message = "Nome inválido.")
     private String name;
 
     public CategoryDTO() {

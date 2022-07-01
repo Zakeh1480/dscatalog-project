@@ -3,6 +3,7 @@ package com.devsuperior.dscatalog.DTO;
 import com.devsuperior.dscatalog.entity.User;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,8 +11,10 @@ public class UserDTO {
 
     private Long id;
 
+    @NotBlank
     private String firstName;
 
+    @NotBlank
     private String lastName;
 
     //As informações dessa coluna devem ser únicas, não podem ser duplicadas.

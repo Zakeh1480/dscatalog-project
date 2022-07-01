@@ -3,6 +3,10 @@ package com.devsuperior.dscatalog.DTO;
 import com.devsuperior.dscatalog.entity.Category;
 import com.devsuperior.dscatalog.entity.Product;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +15,21 @@ import java.util.Set;
 public class ProductDTO {
 
     private Long id;
+
+    @NotBlank(message = "Nome não pode ser vazio.")
+    @Size(max = 60, min = 3, message = "Nome inválido.")
     private String name;
+
+    @NotBlank
     private String description;
+
+    @Positive
     private Double price;
+
+    @NotBlank
     private String imgUrl;
+
+    @PastOrPresent
     private Instant date;
 
     private List<CategoryDTO> categoryDTO = new ArrayList<>();

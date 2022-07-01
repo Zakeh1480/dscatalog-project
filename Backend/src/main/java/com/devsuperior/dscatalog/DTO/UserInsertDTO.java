@@ -2,9 +2,14 @@ package com.devsuperior.dscatalog.DTO;
 
 import com.devsuperior.dscatalog.entity.User;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 //Essa classe servira para implementar a senha com maior segurança.
 public class UserInsertDTO extends UserDTO {
 
+    @NotBlank
+    @Size(min = 6, max = 18, message = "Senha inválida.")
     private String password;
 
     public UserInsertDTO(){
