@@ -13,8 +13,6 @@ public class SecurityConfig {
     private String mySecret;
 
     //Métodos para acessarem os tokens (lerem, modificarem etc...)
-
-
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();

@@ -30,7 +30,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     //Definindo/Configurando as rotas, permissões e roles.
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
+        http.authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
                 //Liberando as requisições do tipo GET para products e categories. -> Mas se fizer o login as outras funcionam... ?
                 .antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
