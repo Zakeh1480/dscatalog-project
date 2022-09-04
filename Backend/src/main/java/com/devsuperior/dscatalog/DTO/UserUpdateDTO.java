@@ -1,8 +1,9 @@
-package com.devsuperior.dscatalog.DTO;
+package com.devsuperior.dscatalog.dto;
 
-import com.devsuperior.dscatalog.service.validation.UserUpdateValid;
+import com.devsuperior.dscatalog.services.validation.UserUpdateValid;
 
-//Esta classe serve para fazer a validação dos updates do usuário.
 @UserUpdateValid
 public class UserUpdateDTO extends UserDTO {
+	private static final long serialVersionUID = 1L;
+
 }
